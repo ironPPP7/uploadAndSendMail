@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration   monitorInterval="1800">
+	<Properties>
+		<Property name="LOG_HOME">/data/transaction-cpu/logs</Property>
+		<property name="PATTERN">%d{yyyy-MM-dd HH:mm:ss SSS} [%-5level] [%-4L] %C [%thread] %msg%n</property>
+	</Properties>
+	<Appenders>
+		<Console name="STDOUT" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="${PATTERN}" />
+		</Console>
+		<RollingRandomAccessFile name="mybatis" fileName="${LOG_HOME}/cpu-mybatis.log" filePattern="${LOG_HOME}/cpu-mybatis-%d{yyyy-MM-dd}.log">  
+                <PatternLayout pattern="${PATTERN}" />  
+                <Policies>  
+	                    <TimeBasedTriggeringPolicy interval="1" modulate="true" />  
+	                </Policies>
+                <DefaultRolloverStrategy max="31"/>
+        </RollingRandomAccessFile>  
+		<RollingRandomAccessFile name="alibaba" fileName="${LOG_HOME}/cpu-alibaba.log" filePattern="${LOG_HOME}/cpu-alibaba-%d{yyyy-MM-dd}.log">  
+                <PatternLayout pattern="${PATTERN}" />  
+                <Policies>  
+	                    <TimeBasedTriggeringPolicy interval="1" modulate="true" />  
+	                </Policies>
+                <DefaultRolloverStrategy max="31"/>
+        </RollingRandomAccessFile>  
+		<RollingRandomAccessFile name="springframework" fileName="${LOG_HOME}/cpu-springframework.log" filePattern="${LOG_HOME}/cpu-springframework-%d{yyyy-MM-dd}.log">  
+                <PatternLayout pattern="${PATTERN}" />  
+                <Policies>  
+	                    <TimeBasedTriggeringPolicy interval="1" modulate="true" />  
+	                </Policies>
+                <DefaultRolloverStrategy max="31"/>
+        </RollingRandomAccessFile>
+		<RollingRandomAccessFile name="qinjiafile" fileName="${LOG_HOME}/cpu.log" filePattern="${LOG_HOME}/cpu-%d{yyyy-MM-dd}.log">  
+                <PatternLayout pattern="${PATTERN}" />  
+                <Policies>  
+	                    <TimeBasedTriggeringPolicy interval="1" modulate="true" />  
+	                </Policies>
+                <DefaultRolloverStrategy max="31"/>
+        </RollingRandomAccessFile>
+
+
+		<RollingRandomAccessFile name="rabbit.listener" fileName="${LOG_HOME}/rabbit.listener.log" filePattern="${LOG_HOME}/rabbit.listener-%d{yyyy-MM-dd}.log">  
+                <PatternLayout pattern="${PATTERN}" />  
+                <Policies>  
+	                    <TimeBasedTriggeringPolicy interval="1" modulate="true" />  
+	                </Policies>
+                <DefaultRolloverStrategy max="31"/>
+        </RollingRandomAccessFile>
+
+		<RollingRandomAccessFile name="rabbit.connection" fileName="${LOG_HOME}/rabbit.connection.log" filePattern="${LOG_HOME}/rabbit.connection-%d{yyyy-MM-dd}.log">  
+                <PatternLayout pattern="${PATTERN}" />  
+                <Policies>  
+	                    <TimeBasedTriggeringPolicy interval="1" modulate="true" />  
+	                </Policies>
+                <DefaultRolloverStrategy max="31"/>
+        </RollingRandomAccessFile>
+	</Appenders>
+	<Loggers>
+		<logger name="com.qinjia.cpu" level="info" additivity="false">
+			<AppenderRef ref="STDOUT" />
+			<AppenderRef ref="qinjiafile" />
+		</logger>
+		<logger name="tk.mybatis" level="info" additivity="false">
+			<AppenderRef ref="STDOUT" />
+			<AppenderRef ref="mybatis" />
+		</logger>
+		<logger name="com.mysql" level="info" additivity="false">
+			<AppenderRef ref="STDOUT" />
+			<AppenderRef ref="mybatis" />
+		</logger>
+		<logger name="org.springframework" level="info" additivity="false">
+			<AppenderRef ref="STDOUT" />
+			<AppenderRef ref="springframework" />
+		</logger>
+		<logger name="com.alibaba" level="warn" additivity="false">
+			<AppenderRef ref="STDOUT" />
+			<AppenderRef ref="alibaba" />
+		</logger>
+		
+		<logger name="org.springframework.amqp.rabbit.listener" level="WARN" additivity="false">
+<!-- 			<AppenderRef ref="STDOUT" /> -->
+			<AppenderRef ref="rabbit.listener" />
+		</logger>
+		<logger name="org.springframework.amqp.rabbit.connection" level="INFO" additivity="false">
+<!-- 			<AppenderRef ref="STDOUT" /> -->
+			<AppenderRef ref="rabbit.connection" />
+		</logger>
+		
+		<Root level="info">
+			<AppenderRef ref="STDOUT" />
+		</Root>
+		<!--打印sql信息-->
+		<logger name="com.qinjia.cpu.mapper" level="DEBUG"></logger>
+		<logger name="org.mybatis" level="DEBUG"></logger>
+	</Loggers>
+</Configuration>  
